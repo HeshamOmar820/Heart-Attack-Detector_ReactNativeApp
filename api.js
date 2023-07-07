@@ -1,0 +1,1 @@
+module.exports = 'https:/heart-attack-detector.onrender.com';
