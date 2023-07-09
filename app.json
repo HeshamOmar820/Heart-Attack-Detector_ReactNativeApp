@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Heart Attack Detector",
+    "name": "HeartMate",
     "slug": "Heart-Attack-Detector",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -19,7 +19,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/appIcon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.heshamomar820.HeartAttackDetector"
