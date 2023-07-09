@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignUpScreen from './screens/signupScreen';
 import SignInScreen from './screens/signinScreen';
 import HomeScreen from './screens/homeScreen';
+import WelcomeScreen from './screens/welcomeScreen'
 import {useEffect, useState, Component} from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -66,24 +67,25 @@ export default function App() {
   return (
     <NavigationContainer>
         {(strToken == null || undefined) ?
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{headerShown: false}}>
+          <Stack.Screen
+            name="Welcome"
+            component={WelcomeScreen}
+          />
           <Stack.Screen
             name="SignIn"
             component={SignInScreen}
-            options={{ title: 'Sign In' }}
           />
           <Stack.Screen
             name="SignUp"
             component={SignUpScreen}
-            options={{ title: 'Sign Up' }}
           />
         </Stack.Navigator>
         :
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{headerShown: false}}>
           <Stack.Screen
             name="Home"
             component={HomeScreen}
-            options={{ title: 'Home' }}
           />
         </Stack.Navigator>
         }

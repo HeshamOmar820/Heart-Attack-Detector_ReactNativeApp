@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, Image, ScrollView } from 'react-native';
 import Checkbox from 'expo-checkbox';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native'
+import {Picker} from '@react-native-picker/picker';
+
 const api = require('../api');
 
 
@@ -13,32 +14,14 @@ const SignUpScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [age, setAge] = useState('');
-  const [sex, setSex] = useState('');
+  const [sex, setSex] = useState('male');
   const [height, setHeight] = useState();
   const [weight, setWeight] = useState();
   const [geneticDiabetes, setGeneticDiabetes] = useState(false);
   const [geneticHeartDiseases, setGeneticHeartDiseases] = useState(false);
   const [smoker, setSmoker] = useState(false);
-    //console.log(AsyncStorage.getItem('jwtToken'))
     
-    const storeToken = async (token) => {
-        try {
-            const jsonValue = JSON.stringify(token)
-            await AsyncStorage.setItem('localToken', jsonValue);
-            console.log(jsonValue);
-            const strToken = await AsyncStorage.getItem('localToken')
-            console.log(strToken);
-          } catch(e) {
-            console.error('Error storing token:', error);
-          }
-          
-        
-      };
-
-  // Add other form fields as per your requirements
   const handleSignUp = () => {
-    // Send sign-up data to the server using an HTTP request (Axios or Fetch API)
-    // Make sure to replace the API endpoint with your server's URL
     fetch(api+'/signup', {
       method: 'POST',
       headers: {
@@ -69,62 +52,102 @@ const SignUpScreen = () => {
   };
 
   return (
-    <View>
-      <TextInput
-        placeholder="Name"
-        value={name}
-        onChangeText={text => setName(text)}
-      />
-      <TextInput
-        placeholder="Email"
-        value={email}
-        onChangeText={text => setEmail(text)}
-      />
-     
-      <TextInput
-        placeholder="Password"
-        secureTextEntry
-        value={password}
-        onChangeText={text => setPassword(text)}
-      />
-       <TextInput
-        placeholder="age"
-        value={age}
-        onChangeText={text => setAge(text)}
-      />
-       <TextInput
-        placeholder="sex"
-        value={sex}
-        onChangeText={text => setSex(text)}
-      />
-       <TextInput
-        placeholder="height"
-        value={height}
-        onChangeText={text => setHeight(text)}
-      />
-       <TextInput
-        placeholder="weight"
-        value={weight}
-        onChangeText={text => setWeight(text)}
-      />
-      <Checkbox
-          value={geneticDiabetes}
-          onValueChange={setGeneticDiabetes}
-          color={geneticDiabetes ? '#4630EB' : '#222'}
+    <ScrollView>
+      <View className="bg-white w-full flex items-center justify-center min-h-screen overflow-y-scroll px-5 py-10">
+        <Image
+          source={ require('../assets/heart.png')}
+          className="w-[250px] h-[250px] mb-5 flex content-center justify-center"
         />
-      <Checkbox
-          value={geneticHeartDiseases}
-          onValueChange={setGeneticHeartDiseases}
-          color={geneticHeartDiseases ? '#4630EB' : '#222'}
+        <TextInput
+          placeholder="Name"
+          value={name}
+          onChangeText={text => setName(text)}
+          className="w-full h-12 border border-slate-200 px-4 text-xl mb-5"
         />
-      <Checkbox
-          value={smoker}
-          onValueChange={setSmoker}
-          color={geneticHeartDiseases ? '#4630EB' : '#222'}
+        <TextInput
+          placeholder="Email"
+          value={email}
+          onChangeText={text => setEmail(text)}
+          className="w-full h-12 border border-slate-200 px-4 text-xl mb-5"
+          inputMode='email'
         />
-      {/* Add other form fields here */}
-      <Button title="Sign Up" onPress={handleSignUp} />
-    </View>
+        <TextInput
+          placeholder="Password"
+          secureTextEntry
+          value={password}
+          onChangeText={text => setPassword(text)}
+          className="w-full h-12 border border-slate-200 px-4 text-xl mb-5"
+        />
+        <TextInput
+          placeholder="age"
+          value={age}
+          onChangeText={text => setAge(text)}
+          className="w-full h-12 border border-slate-200 px-4 text-xl mb-5"
+          inputMode='tel'
+        />
+        <View className="w-full flex items-start">
+          <Picker
+            selectedValue={sex}
+            style={{ height: 40, width: 180, padding:0, margin:0,}}
+            onValueChange={(itemValue, itemIndex) => setSex(itemValue)}
+            className="w-full h-10 border-slate-200 border "
+          >
+            <Picker.Item label="Male" value="male" />
+            <Picker.Item label="Female" value="female" />
+          </Picker>
+        </View>
+        <TextInput
+          autoComplete='off'
+          placeholder="height in Cm"
+          value={height}
+          onChangeText={text => setHeight(text)}
+          className="w-full h-12 border border-slate-200 px-4 text-xl mb-5 mt-5"
+          inputMode='tel'
+        />
+        <TextInput
+          autoComplete='off'
+          placeholder="weight in kg"
+          value={weight}
+          onChangeText={text => setWeight(text)}
+          className="w-full h-12 border border-slate-200 px-4 text-xl mb-5"
+          inputMode='tel'
+        />
+        <View className="w-full flex flex-row items-center space-x-2 mb-2">
+          <Text className="text-lg font-medium">
+              Check if you have genetic diabetes
+          </Text>
+          <Checkbox
+            value={geneticDiabetes}
+            onValueChange={setGeneticDiabetes}
+            color={geneticDiabetes ? '#42A9E6' : '#000'}
+          />
+        </View>
+        <View className="w-full flex flex-row items-center space-x-2 mb-2">
+          <Text className="text-lg font-medium">
+              Check if you have genetic heart diseases
+          </Text>
+          <Checkbox
+            value={geneticHeartDiseases}
+            onValueChange={setGeneticHeartDiseases}
+            color={geneticHeartDiseases ? '#42A9E6' : '#000'}
+          />
+        </View>
+        <View className="w-full flex flex-row items-center space-x-2 mb-5">
+          <Text className="text-lg font-medium">
+              Check if you are smoker
+          </Text>
+          <Checkbox
+            value={smoker}
+            onValueChange={setSmoker}
+            color={smoker ? '#42A9E6' : '#000'}
+          />
+        </View>
+        
+        <TouchableOpacity className="bg-[#42A9E6] w-full h-8 flex justify-center items-center mb-5" onPress={handleSignUp} >
+            <Text className="text-base uppercase">Sign Up</Text>
+          </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 };
 
